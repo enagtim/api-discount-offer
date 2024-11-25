@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from '@prisma/client';
+import { InfoRole } from '@prisma/client';
 
 export const authenticate = (req: Request, res: Response, next: NextFunction): void => {
 	const token = req.headers.authorization?.split(' ')[1];
@@ -9,8 +9,8 @@ export const authenticate = (req: Request, res: Response, next: NextFunction): v
 		return;
 	}
 	try {
-		const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default_secret') as User;
-		req.user = decoded;
+		const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default_secret') as InfoRole;
+		req.infoRole = decoded;
 		next();
 	} catch (error) {
 		res.status(401).json({ message: 'Invalid or expired token' });

@@ -11,10 +11,11 @@ export class PromotionController implements IPromotionController {
 	constructor(@inject(TYPES.PromotionService) private promotionService: IPromotionService) {}
 	public async createPromotion(req: Request, res: Response): Promise<void> {
 		try {
-			const { title, description, supplierId } = req.body as Promotion;
-			if (!title || !description || !supplierId) {
+			const { title, description, supplierId, city, createdAt, startDate, endDate } =
+				req.body as Promotion;
+			if (!title || !description || !supplierId || !city || !startDate || !endDate) {
 				res.status(400).json({
-					message: 'Invalid promotion data. Title, description, and supplierId are required.',
+					message: 'Invalid promotion data!',
 				});
 				return;
 			}
@@ -22,6 +23,10 @@ export class PromotionController implements IPromotionController {
 				title,
 				description,
 				supplierId,
+				city,
+				createdAt,
+				startDate,
+				endDate,
 			});
 			res.status(201).json(promotion);
 		} catch (error) {

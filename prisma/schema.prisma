@@ -7,26 +7,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-model User {
-  id         Int         @id @default(autoincrement())
-  email      String      @unique
-  password   String
-  name       String
-  role       UserRole
-  promotions Promotion[]
-}
-
-model Promotion {
-  id          Int             @id @default(autoincrement())
-  title       String
-  description String
-  status      PromotionStatus
-  supplierId  Int
-  supplier    User            @relation(fields: [supplierId], references: [id])
-}
-
-enum UserRole {
+enum Role {
   ADMIN
   SUPPLIER
 }
@@ -35,4 +16,60 @@ enum PromotionStatus {
   PENDING
   APPROVED
   REJECTED
+}
+model InfoRole {
+  id                  Int         @id @default(autoincrement())
+  email               String      @unique
+  password            String
+  name                String
+  role                Role
+  promotions          Promotion[]
+}
+model User {
+  id                  Int @id @default(autoincrement())
+  city                String
+  notifications       Boolean    
+  subscribedTags      UserTag[]
+}
+model Promotion {
+  id          Int             @id @default(autoincrement())
+  title       String
+  description String
+  status      PromotionStatus
+  supplierId  Int
+  supplier    InfoRole        @relation(fields: [supplierId], references: [id])
+  city        String
+  startDate   DateTime
+  endDate     DateTime  
+  createdAt   DateTime        @default(now())
+  tags        PromotionTag[]
+}
+//сделать табличку города пользвателя
+//сделать табличка тегов должна быть связана с городом
+model Tag {
+    id             Int             @id @default(autoincrement())
+    name           String          @unique
+    promotions     PromotionTag[]
+    users          UserTag[]
+}
+model PromotionTag {
+  id           Int        @id @default(autoincrement())
+  promotionId  Int
+  tagId        Int
+  createdAt    DateTime   @default(now())
+  promotion    Promotion  @relation(fields: [promotionId], references: [id])
+  tag          Tag        @relation(fields: [tagId], references: [id])
+
+  @@unique([promotionId, tagId])
+}
+
+model UserTag {
+  id           Int        @id @default(autoincrement())
+  userId       Int
+  tagId        Int
+  subscribedAt DateTime   @default(now())
+  user         User       @relation(fields: [userId], references: [id])
+  tag          Tag        @relation(fields: [tagId], references: [id])
+
+  @@unique([userId, tagId])
 }

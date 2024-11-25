@@ -8,8 +8,4 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: api-d
     ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-volumes:
-  postgres_data:
+      - "5432:5432"   

@@ -6,7 +6,7 @@ import { TYPES } from '../type';
 import { PrismaClient } from '@prisma/client';
 import { setupAuthRoutes } from '../routes/auth.routes';
 import dotenv from 'dotenv';
-import { setupUsersRoutes } from '../routes/users.router';
+import { setupUsersRoutes } from '../routes/roles.routes';
 import { setupPromotionsRoutes } from '../routes/promotion.routes';
 
 @injectable()

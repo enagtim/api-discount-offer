@@ -5,6 +5,10 @@ export interface IPromotionService {
 		title: string;
 		description: string;
 		supplierId: number;
+		city: string;
+		startDate: Date;
+		endDate: Date;
+		createdAt: Date;
 	}) => Promise<Promotion>;
 	getPromotionBySupplier: (supplierId: number) => Promise<Promotion[] | null>;
 	updateStatusPromotion: (

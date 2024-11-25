@@ -12,6 +12,10 @@ export class PromotionRepository implements IPromotionRepository {
 		description: string;
 		status: PromotionStatus;
 		supplierId: number;
+		city: string;
+		createdAt: Date;
+		endDate: Date;
+		startDate: Date;
 	}): Promise<Promotion> {
 		const promotion = await this.prisma.promotion.create({
 			data: promotionData,

@@ -1,16 +1,16 @@
-import { UserRole } from '@prisma/client';
+import { Role } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 
-export const checkRole = (requiredRole: UserRole) => {
+export const checkRole = (requiredRole: Role) => {
 	return (req: Request, res: Response, next: NextFunction): void => {
-		const user = req.user;
+		const infoRole = req.infoRole;
 
-		if (!user) {
+		if (!infoRole) {
 			res.status(401).json({ message: 'Unauthorized' });
 			return;
 		}
 
-		if (user.role !== requiredRole) {
+		if (infoRole.role !== requiredRole) {
 			res.status(403).json({ message: 'Role does not exist' });
 			return;
 		}

@@ -4,17 +4,17 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { TYPES } from '../../type';
 import { IAuthService } from '../../services/AuthService/auth.service.interface';
-import { User } from '@prisma/client';
+import { InfoRole, User } from '@prisma/client';
 
 @injectable()
 export class AuthController implements IAuthController {
 	constructor(@inject(TYPES.AuthService) private authservice: IAuthService) {}
 	public async register(req: Request, res: Response): Promise<void> {
 		try {
-			const { email, password, name, role } = req.body as User;
+			const { email, password, name, role } = req.body as InfoRole;
 			if (!email || !password || !name || !role) {
 				res.status(400).json({
-					message: 'Invalid user data. email, password, name and role are required.',
+					message: 'Invalid user data. email, password, name, role, notifications are required.',
 				});
 				return;
 			}
@@ -33,7 +33,7 @@ export class AuthController implements IAuthController {
 	}
 	public async login(req: Request, res: Response): Promise<void> {
 		try {
-			const { email, password } = req.body as User;
+			const { email, password } = req.body as InfoRole;
 			if (!email || !password) {
 				res.status(400).json({
 					message: 'Invalid user data. email, password are required.',

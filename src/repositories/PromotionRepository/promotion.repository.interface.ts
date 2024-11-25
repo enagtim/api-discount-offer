@@ -6,6 +6,10 @@ export interface IPromotionRepository {
 		description: string;
 		status: PromotionStatus;
 		supplierId: number;
+		city: string;
+		createdAt: Date;
+		endDate: Date;
+		startDate: Date;
 	}) => Promise<Promotion>;
 	getById: (promotionId: number) => Promise<Promotion | null>;
 	getBySupplier: (supplierId: number) => Promise<Promotion[] | null>;
